@@ -2,7 +2,7 @@
 // patch:
 //   path: "app/screens/index.ts"
 //   append: "export * from \"./ChatRoomScreen\"\n"
-//   skip: 
+//   skip:
 // ---
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
@@ -22,19 +22,23 @@ import { Screen, Text } from "../components"
 
 // REMOVE ME! ⬇️ This TS ignore will not be necessary after you've added the correct navigator param type
 // @ts-ignore
-export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom">> = observer(function ChatRoomScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
-
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
-  return (
-    <Screen style={$root} preset="scroll">
-      <Text text="chatRoom" />
-    </Screen>
-  )
-})
+export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom">> = observer(
+  function ChatRoomScreen({route}) {
+    // Pull in one of our MST stores
+    // const { someStore, anotherStore } = useStores()
+    const data = route.params.data
+    // Pull in navigation via hook
+    // const navigation = useNavigation()
+    return (
+      <Screen style={$root} preset="scroll">
+        <Text text={data.name} />
+      </Screen>
+    )
+  },
+)
 
 const $root: ViewStyle = {
   flex: 1,
+  paddingHorizontal: 3,
+  marginTop: 40,
 }
