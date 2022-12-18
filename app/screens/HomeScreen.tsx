@@ -6,13 +6,13 @@
 // ---
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle } from "react-native"
+import { ViewStyle, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { AppStackScreenProps } from "../navigators"
 import { Screen, Text } from "../components"
 import { ChatCard } from "../components/ChatCard"
 import { useNavigation } from "@react-navigation/native"
-import { chatRoom } from "../data"
+// import { chatRoom } from "../data"
 import { useStores } from "../models"
 
 // STOP! READ ME FIRST!
@@ -42,16 +42,22 @@ export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = obs
     return (
       <Screen style={$root} preset="scroll">
         <Text text="home" />
-        {chatRoomStore.chatRooms.map((data) => (
-          <ChatCard
-            key={data.id}
-            image={data.image}
-            name={data.name}
-            createdAt={data.createdAt}
-            onPress={() => navigation.navigate("ChatRoom" as never, { data } as never)}
-            // onPress={() => console.log(chatRoomStore.chatRooms[0])}
-          />
-        ))}
+        {isLoading ? (
+          <Text text="Loading..." />
+        ) : (
+          <View>
+            {chatRoomStore.chatRooms.map((data) => (
+              <ChatCard
+                key={data.id}
+                image={data.image}
+                name={data.name}
+                createdAt={data.createdAt}
+                onPress={() => navigation.navigate("ChatRoom" as never, { data } as never)}
+                // onPress={() => console.log(chatRoomStore.chatRooms[0])}
+              />
+            ))}
+          </View>
+        )}
       </Screen>
     )
   },
