@@ -13,7 +13,7 @@ import { Screen, Text } from "../components"
 import { ChatCard } from "../components/ChatCard"
 import { useNavigation } from "@react-navigation/native"
 import { chatRoom } from "../data"
-// import { useStores } from "../models"
+import { useStores } from "../models"
 
 // STOP! READ ME FIRST!
 // To fix the TS error below, you'll need to add the following things in your navigation config:
@@ -27,7 +27,7 @@ import { chatRoom } from "../data"
 export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = observer(
   function HomeScreen() {
     // Pull in one of our MST stores
-    // const { someStore, anotherStore } = useStores()
+    const { chatRoomStore} = useStores()
     // Pull in navigation via hook
     const navigation = useNavigation()
     return (
@@ -38,7 +38,8 @@ export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = obs
             key={data.id}
             image={data.image}
             name={data.name}
-            onPress={() => navigation.navigate("ChatRoom" as never, { data } as never)}
+            // onPress={() => navigation.navigate("ChatRoom" as never, { data } as never)}
+            onPress={() => console.log(chatRoomStore.chatRoomList)}
           />
         ))}
       </Screen>
