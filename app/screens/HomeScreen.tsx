@@ -27,19 +27,29 @@ import { useStores } from "../models"
 export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = observer(
   function HomeScreen() {
     // Pull in one of our MST stores
-    const { chatRoomStore} = useStores()
+    const { chatRoomStore } = useStores()
     // Pull in navigation via hook
+    const [isLoading, setIsLoading] = React.useState(false)
     const navigation = useNavigation()
+
+    React.useEffect(() => {
+      ;(async function load() {
+        setIsLoading(true)
+        await chatRoomStore.fetchChatRooms()
+        setIsLoading(false)
+      })()
+    }, [chatRoomStore])
     return (
       <Screen style={$root} preset="scroll">
         <Text text="home" />
-        {chatRoom.map((data) => (
+        {chatRoomStore.chatRooms.map((data) => (
           <ChatCard
             key={data.id}
             image={data.image}
             name={data.name}
-            // onPress={() => navigation.navigate("ChatRoom" as never, { data } as never)}
-            onPress={() => console.log(chatRoomStore.chatRoomList)}
+            createdAt={data.createdAt}
+            onPress={() => navigation.navigate("ChatRoom" as never, { data } as never)}
+            // onPress={() => console.log(chatRoomStore.chatRooms[0])}
           />
         ))}
       </Screen>

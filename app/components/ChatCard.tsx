@@ -27,6 +27,7 @@ export interface ChatCardProps {
   image?: string
   name: string
   onPress?: () => void
+  createdAt: string
   style?: StyleProp<ViewStyle>
 }
 
@@ -37,6 +38,7 @@ export const ChatCard = observer(function ChatCard({
   name = "your title",
   image,
   onPress,
+  createdAt
 }: ChatCardProps) {
   const profilePicture = image ?? defaultImage
 
@@ -46,6 +48,7 @@ export const ChatCard = observer(function ChatCard({
         <Image style={$image} source={image ? { uri: profilePicture } : profilePicture} />
         <View style={$textWrapper}>
           <Text style={$title}>{name}</Text>
+          <Text style={$date}>{createdAt}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -72,6 +75,12 @@ const $title: TextStyle = {
   fontFamily: typography.secondary.medium,
   fontSize: 14,
   color: colors.palette.secondary500,
+}
+
+const $date: TextStyle = {
+  fontFamily: typography.secondary.medium,
+  fontSize: 11,
+  color: colors.palette.overlay20,
 }
 
 const $image: ImageStyle = {

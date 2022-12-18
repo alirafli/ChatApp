@@ -5,14 +5,11 @@
  * See the [Backend API Integration](https://github.com/infinitered/ignite/blob/master/docs/Backend-API-Integration.md)
  * documentation for more details.
  */
-import {
-  ApisauceInstance,
-  create,
-} from "apisauce"
+import { ApiResponse, ApisauceInstance, create } from "apisauce"
 import Config from "../../config"
-import type {
-  ApiConfig,
-} from "./api.types"
+import { ChatRoomSnapshotIn } from "../../models/ChatRoom"
+import type { ApiConfig, ApiFeedResponse } from "./api.types"
+import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
 
 /**
  * Configuring the apisauce instance.
@@ -44,6 +41,32 @@ export class Api {
     })
   }
 
+  async getChatRooms(): Promise<
+    { kind: "ok"; chatRooms: ChatRoomSnapshotIn[] } | GeneralApiProblem
+  > {
+    // make the api call
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(`api/Room/`)
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    // transform the data into the format we are expecting
+    try {
+      const rawData = response.data
+
+      // This is where we transform the data into the shape we expect for our MST model.
+      const chatRooms: ChatRoomSnapshotIn[] = rawData.items.map((raw) => ({
+        ...raw,
+      }))
+
+      return { kind: "ok", chatRooms }
+    } catch (e) {
+      return { kind: "bad-data" }
+    }
+  }
 }
 
 // Singleton instance of the API for convenience

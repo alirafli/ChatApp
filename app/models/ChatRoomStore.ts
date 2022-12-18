@@ -13,6 +13,7 @@
 //     skip:
 // ---
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { api } from "../services/api"
 import { ChatRoomModel } from "./ChatRoom"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 
@@ -26,7 +27,16 @@ export const ChatRoomStoreModel = types
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
-  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .actions((self) => ({
+    async fetchChatRooms() {
+      const response = await api.getChatRooms()
+      if (response.kind === "ok") {
+        self.setProp("chatRooms", [])
+      } else {
+        console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
+      }
+    },
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface ChatRoomStore extends Instance<typeof ChatRoomStoreModel> {}
 export interface ChatRoomStoreSnapshotOut extends SnapshotOut<typeof ChatRoomStoreModel> {}
