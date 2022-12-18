@@ -10,6 +10,7 @@ import { ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { AppStackScreenProps } from "../navigators"
 import { Screen, Text } from "../components"
+import { ChatCard } from "../components/ChatCard"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
 
@@ -31,10 +32,13 @@ export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = obs
   return (
     <Screen style={$root} preset="scroll">
       <Text text="home" />
+      <ChatCard name="kelompok 12" />
     </Screen>
   )
 })
 
 const $root: ViewStyle = {
   flex: 1,
+  paddingHorizontal: 3,
+  marginTop: 40,
 }
