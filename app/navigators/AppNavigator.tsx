@@ -11,7 +11,7 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
-import { HomeScreen } from "../screens"
+import { ChatRoomScreen, HomeScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -30,6 +30,7 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 export type AppStackParamList = {
   // 🔥 Your screens go here
   Home: undefined
+  ChatRoom: undefined
 }
 
 /**
@@ -51,6 +52,7 @@ const AppStack = observer(function AppStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/** 🔥 Your screens go here */}
       <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="ChatRoom" component={ChatRoomScreen} />
     </Stack.Navigator>
   )
 })
