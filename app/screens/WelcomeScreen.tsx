@@ -5,17 +5,18 @@ import {
   Text,
 } from "../components"
 import { isRTL } from "../i18n"
-import { AppStackScreenProps } from "../navigators"
+// import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeFace = require("../../assets/images/welcome-face.png")
 
-interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {} // @demo remove-current-line
+// interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {} // @demo remove-current-line
 
 
-export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen(
+// export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen(
+  export const WelcomeScreen: FC = observer(function WelcomeScreen(
 ) {
 
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
