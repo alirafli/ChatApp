@@ -51,8 +51,12 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: true }}>
       {/** 🔥 Your screens go here */}
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="ChatRoom" component={ChatRoomScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ title: "ChatApps" }} />
+      <Stack.Screen
+        name="ChatRoom"
+        component={ChatRoomScreen}
+        options={({ route }: any) => ({ title: route.params.data.name })}
+      />
     </Stack.Navigator>
   )
 })
