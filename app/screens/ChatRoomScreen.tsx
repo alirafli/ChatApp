@@ -41,15 +41,18 @@ export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom"
     }, [chatStore])
 
     if (isLoading) return <Text style={$root} text="Loading..." />
-    if (chatStore.chats.length === 0) return <Text style={$root} text="belum ada chat" />
-    // caretRight@2x.png
     return (
       <Screen style={$root} preset="fixed">
-        <ScrollView style={$content}>
-          {chatStore.chats.map((data, key) => (
-            <BubbleChat key={key} name={data.name} message={data.message} />
-          ))}
-        </ScrollView>
+        {chatStore.chats.length === 0 ? (
+          <Text style={$content} text="belum ada chat" />
+        ) : (
+          <ScrollView style={$content}>
+            {chatStore.chats.map((data, key) => (
+              <BubbleChat key={key} name={data.name} message={data.message} />
+            ))}
+          </ScrollView>
+        )}
+
         <View style={$fieldChat}>
           <TextField containerStyle={$textField} placeholder="Type Here..." />
           <Image style={$image} source={sendIcon} />
