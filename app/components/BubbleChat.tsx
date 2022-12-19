@@ -5,12 +5,10 @@
 //   skip:
 // ---
 import * as React from "react"
-import { StyleProp, TextStyle, View, ViewStyle, Image, ImageStyle } from "react-native"
+import { StyleProp, TextStyle, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { colors, typography } from "../theme"
 import { Text } from "./Text"
-
-const defaultImage = require("../../assets/images/rnr-image-1.png")
 
 export interface BubbleChatProps {
   /**
@@ -18,20 +16,16 @@ export interface BubbleChatProps {
    */
   name: string
   message: string
-  avatar: string
   style?: StyleProp<ViewStyle>
 }
 
 /**
  * Describe your component here
  */
-export const BubbleChat = observer(function BubbleChat({ name, message, avatar }: BubbleChatProps) {
-  const profilePicture = avatar ?? defaultImage
-
+export const BubbleChat = observer(function BubbleChat({ name, message }: BubbleChatProps) {
   return (
     <View style={$container}>
       <View style={$wrapper}>
-        <Image style={$image} source={avatar ? { uri: profilePicture } : profilePicture} />
         <Text style={$name}>{name}</Text>
       </View>
       <Text style={$message}>{message}</Text>
@@ -47,6 +41,7 @@ const $container: ViewStyle = {
   paddingLeft: 20,
   paddingRight: 35,
   paddingVertical: 6,
+  marginVertical: 12,
   marginHorizontal: 8,
   borderRadius: 15,
 }
@@ -54,7 +49,7 @@ const $container: ViewStyle = {
 const $wrapper: ViewStyle = {
   display: "flex",
   flexDirection: "row",
-  alignItems:"center",
+  alignItems: "center",
   marginTop: 5,
 }
 const $name: TextStyle = {
@@ -69,9 +64,9 @@ const $message: TextStyle = {
   fontSize: 15,
 }
 
-const $image: ImageStyle = {
-  borderRadius: 50,
-  marginRight: 5,
-  width: 25,
-  height: 25,
-}
+// const $image: ImageStyle = {
+//   borderRadius: 50,
+//   marginRight: 5,
+//   width: 25,
+//   height: 25,
+// }

@@ -5,11 +5,11 @@
  * See the [Backend API Integration](https://github.com/infinitered/ignite/blob/master/docs/Backend-API-Integration.md)
  * documentation for more details.
  */
-import { ApiResponse, ApisauceInstance, create } from "apisauce"
+import { ApisauceInstance, create } from "apisauce"
 import Config from "../../config"
 import { ChatSnapshotIn } from "../../models/Chat"
 import { ChatRoomSnapshotIn } from "../../models/ChatRoom"
-import type { ApiConfig, ApiFeedResponse } from "./api.types"
+import type { ApiConfig } from "./api.types"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
 
 /**
@@ -69,9 +69,9 @@ export class Api {
     }
   }
 
-  async getChats(): Promise<{ kind: "ok"; chats: ChatSnapshotIn[] } | GeneralApiProblem> {
+  async getChats(id): Promise<{ kind: "ok"; chats: ChatSnapshotIn[] } | GeneralApiProblem> {
     // make the api call
-    const response: any = await this.apisauce.get(`api/Room/1/Message/`)
+    const response: any = await this.apisauce.get(`api/Room/${id}/Message/`)
 
     // the typical ways to die when calling an api
     if (!response.ok) {
@@ -82,7 +82,6 @@ export class Api {
     // transform the data into the format we are expecting
     try {
       const rawData = response.data
-
       // This is where we transform the data into the shape we expect for our MST model.
       const chats: ChatSnapshotIn[] = rawData.map((raw) => ({
         ...raw,

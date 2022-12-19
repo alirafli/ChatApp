@@ -1,5 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { ChatRoomStoreModel } from "./ChatRoomStore"
+import { ChatStoreModel } from "./ChatStore"
 
 /**
  * A RootStore model.
@@ -7,6 +8,7 @@ import { ChatRoomStoreModel } from "./ChatRoomStore"
 export const RootStoreModel = types.model("RootStore").props({
   // @demo remove-current-line
   chatRoomStore: types.optional(ChatRoomStoreModel, {}),
+  chatStore: types.optional(ChatStoreModel, {}),
 })
 
 /**

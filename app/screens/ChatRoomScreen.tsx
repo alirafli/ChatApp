@@ -35,24 +35,22 @@ export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom"
     React.useEffect(() => {
       ;(async function load() {
         setIsLoading(true)
-        await chatStore.fetchChats()
+        await chatStore.fetchChats(data.id)
         setIsLoading(false)
       })()
     }, [chatStore])
+    
+    if (isLoading) return <Text style={$root} text="Loading..." />
+    if (chatStore.chats.length === 0) return <Text style={$root} text="belum ada chat" />
+
     return (
       <Screen style={$root} preset="scroll">
         <Text text={data.name} />
-        {isLoading ? (
-          <Text text="Loading..." />
-        ) : (
-          <View>
-          <Text text="click me" onPress={() => console.log(chatStore.chats)}/>
-
-            {chatStore.chats.map((data, key) => (
-              <BubbleChat key={key} name={data.name} message={data.message} avatar={data.avatar} />
-            ))}
-          </View>
-        )}
+        <View>
+          {chatStore.chats.map((data, key) => (
+            <BubbleChat key={key} name={data.name} message={data.message} />
+          ))}
+        </View>
       </Screen>
     )
   },
