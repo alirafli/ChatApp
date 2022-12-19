@@ -49,7 +49,7 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: true }}>
       {/** 🔥 Your screens go here */}
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="ChatRoom" component={ChatRoomScreen} />

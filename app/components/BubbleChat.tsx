@@ -25,9 +25,7 @@ export interface BubbleChatProps {
 export const BubbleChat = observer(function BubbleChat({ name, message }: BubbleChatProps) {
   return (
     <View style={$container}>
-      <View style={$wrapper}>
-        <Text style={$name}>{name}</Text>
-      </View>
+      <Text style={$name}>{name}</Text>
       <Text style={$message}>{message}</Text>
     </View>
   )
@@ -46,13 +44,10 @@ const $container: ViewStyle = {
   borderRadius: 15,
 }
 
-const $wrapper: ViewStyle = {
+const $name: TextStyle = {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  marginTop: 5,
-}
-const $name: TextStyle = {
   fontFamily: typography.primary.normal,
   fontSize: 12,
   fontWeight: "bold",

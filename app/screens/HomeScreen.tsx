@@ -41,7 +41,6 @@ export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = obs
     }, [chatRoomStore])
     return (
       <Screen style={$root} preset="scroll">
-        <Text text="home" />
         {isLoading ? (
           <Text text="Loading..." />
         ) : (
@@ -65,5 +64,4 @@ export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = obs
 const $root: ViewStyle = {
   flex: 1,
   paddingHorizontal: 3,
-  marginTop: 40,
 }
