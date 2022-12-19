@@ -31,7 +31,7 @@ export const ChatRoomStoreModel = types
     async fetchChatRooms() {
       const response = await api.getChatRooms()
       if (response.kind === "ok") {
-        self.setProp("chatRooms", [])
+        self.setProp("chatRooms", response.chatRooms)
       } else {
         console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
       }

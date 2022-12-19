@@ -53,7 +53,6 @@ export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = obs
                 name={data.name}
                 createdAt={data.createdAt}
                 onPress={() => navigation.navigate("ChatRoom" as never, { data } as never)}
-                // onPress={() => console.log(chatRoomStore.chatRooms[0])}
               />
             ))}
           </View>

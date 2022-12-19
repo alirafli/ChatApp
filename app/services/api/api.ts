@@ -7,6 +7,7 @@
  */
 import { ApiResponse, ApisauceInstance, create } from "apisauce"
 import Config from "../../config"
+import { ChatSnapshotIn } from "../../models/Chat"
 import { ChatRoomSnapshotIn } from "../../models/ChatRoom"
 import type { ApiConfig, ApiFeedResponse } from "./api.types"
 import { GeneralApiProblem, getGeneralApiProblem } from "./apiProblem"
@@ -33,7 +34,7 @@ export class Api {
   constructor(config: ApiConfig = DEFAULT_API_CONFIG) {
     this.config = config
     this.apisauce = create({
-      baseURL: this.config.url,
+      baseURL: "https://60bb189342e1d00017620480.mockapi.io/",
       timeout: this.config.timeout,
       headers: {
         Accept: "application/json",
@@ -45,7 +46,32 @@ export class Api {
     { kind: "ok"; chatRooms: ChatRoomSnapshotIn[] } | GeneralApiProblem
   > {
     // make the api call
-    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(`api/Room/`)
+    const response: any = await this.apisauce.get(`/api/Room`)
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    // transform the data into the format we are expecting
+    try {
+      const rawData = response.data
+      // console.log(response.data)
+
+      // This is where we transform the data into the shape we expect for our MST model.
+      const chatRooms: ChatRoomSnapshotIn[] = rawData.map((raw) => ({
+        ...raw,
+      }))
+
+      return { kind: "ok", chatRooms }
+    } catch (e) {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getChats(): Promise<{ kind: "ok"; chats: ChatSnapshotIn[] } | GeneralApiProblem> {
+    // make the api call
+    const response: any = await this.apisauce.get(`api/Room/1/Message/`)
 
     // the typical ways to die when calling an api
     if (!response.ok) {
@@ -58,11 +84,10 @@ export class Api {
       const rawData = response.data
 
       // This is where we transform the data into the shape we expect for our MST model.
-      const chatRooms: ChatRoomSnapshotIn[] = rawData.items.map((raw) => ({
+      const chats: ChatSnapshotIn[] = rawData.map((raw) => ({
         ...raw,
       }))
-
-      return { kind: "ok", chatRooms }
+      return { kind: "ok", chats }
     } catch (e) {
       return { kind: "bad-data" }
     }
