@@ -6,7 +6,7 @@
 // ---
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle, View, ScrollView, Image, ImageStyle } from "react-native"
+import { ViewStyle, View, ScrollView, Image, ImageStyle, TouchableOpacity } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { AppStackScreenProps } from "../navigators"
 import { Screen, Text, TextField } from "../components"
@@ -25,13 +25,23 @@ import { useStores } from "../models"
 export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom">> = observer(
   function ChatRoomScreen({ route }) {
     // Pull in one of our MST stores
-    const { chatStore } = useStores()
+    const { chatStore, chat } = useStores()
     const data = route.params.data
     const sendIcon = require("../../assets/icons/caretRight.png")
     const [isLoading, setIsLoading] = React.useState(false)
 
     // Pull in navigation via hook
     // const navigation = useNavigation()
+
+    const handleChat = (text) => {
+      chat.setChat(text)
+      chat.setName("ali rafli")
+    }
+
+    const handleSendChat = (id) => {
+      chat.sendChat(id)
+    }
+
     React.useEffect(() => {
       ;(async function load() {
         setIsLoading(true)
@@ -39,7 +49,7 @@ export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom"
         setIsLoading(false)
       })()
     }, [chatStore])
-
+    
     if (isLoading) return <Text style={$root} text="Loading..." />
     return (
       <Screen style={$root} preset="fixed">
@@ -54,8 +64,14 @@ export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom"
         )}
 
         <View style={$fieldChat}>
-          <TextField containerStyle={$textField} placeholder="Type Here..." />
-          <Image style={$image} source={sendIcon} />
+          <TextField
+            containerStyle={$textField}
+            placeholder="Type Here..."
+            onChangeText={(text) => handleChat(text)}
+          />
+          <TouchableOpacity onPress={() => handleSendChat(data.id)}>
+            <Image style={$image} source={sendIcon} />
+          </TouchableOpacity>
         </View>
       </Screen>
     )

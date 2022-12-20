@@ -1,4 +1,5 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { ChatModel } from "./Chat"
 import { ChatRoomModel } from "./ChatRoom"
 import { ChatRoomStoreModel } from "./ChatRoomStore"
 import { ChatStoreModel } from "./ChatStore"
@@ -11,6 +12,7 @@ export const RootStoreModel = types.model("RootStore").props({
   chatRoomStore: types.optional(ChatRoomStoreModel, {}),
   chatStore: types.optional(ChatStoreModel, {}),
   chatRoom: types.optional(ChatRoomModel, {}),
+  chat: types.optional(ChatModel, {}),
 })
 
 /**

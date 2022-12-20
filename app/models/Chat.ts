@@ -13,6 +13,7 @@
 //     skip:
 // ---
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { api } from "../services/api"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 
 /**
@@ -30,7 +31,28 @@ export const ChatModel = types
   })
   .actions(withSetPropAction)
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
-  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .actions((self) => ({
+    setChat(message) {
+      self.message = message
+    },
+    setName(name) {
+      self.name = name
+    },
+
+    getChat() {
+      return { name: self.name, message: self.message }
+    },
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .actions((self) => ({
+    async sendChat(id: string) {
+      const response = await api.sendChat(id, self.name, self.message)
+      if (response.kind === "ok") {
+        console.log("send!")
+      } else {
+        console.tron.error(`Error fetching episodes: ${JSON.stringify(response)}`, [])
+      }
+    },
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 export interface Chat extends Instance<typeof ChatModel> {}
 export interface ChatSnapshotOut extends SnapshotOut<typeof ChatModel> {}
