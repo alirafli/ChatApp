@@ -44,23 +44,30 @@ export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = obs
         {isLoading ? (
           <Text text="Loading..." />
         ) : (
-          <View>
-            {chatRoomStore.chatRooms.map((data) => (
-              <ChatCard
-                key={data.id}
-                image={data.image}
-                name={data.name}
-                createdAt={data.createdAt}
-                onPress={() => navigation.navigate("ChatRoom" as never, { data } as never)}
-              />
-            ))}
-          </View>
+          <Rendered chatRooms={chatRoomStore.chatRooms} navigation={navigation} />
         )}
       </Screen>
     )
   },
 )
 
+const Rendered = ({ chatRooms, navigation }) => {
+  return (
+    <View>
+      {chatRooms.map((data) => (
+        <ChatCard
+          key={data.id}
+          image={data.image}
+          name={data.name}
+          createdAt={data.createdAt}
+          onPress={() => navigation.navigate("ChatRoom" as never, { data } as never)}
+        />
+      ))}
+    </View>
+  )
+}
+
+export default HomeScreen
 const $root: ViewStyle = {
   flex: 1,
   paddingHorizontal: 3,
