@@ -91,6 +91,26 @@ export class Api {
       return { kind: "bad-data" }
     }
   }
+
+  async createChatRoom(name): Promise<{ kind: "ok"; response: string } | GeneralApiProblem> {
+    // make the api call
+    const response: any = await this.apisauce.post(`api/Room/`, { name })
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    // transform the data into the format we are expecting
+    try {
+      // This is where we transform the data into the shape we expect for our MST model.
+
+      return { kind: "ok", response }
+    } catch (e) {
+      return { kind: "bad-data" }
+    }
+  }
 }
 
 // Singleton instance of the API for convenience

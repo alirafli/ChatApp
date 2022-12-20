@@ -10,8 +10,8 @@ import { ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { AppStackScreenProps } from "../navigators"
 import { Button, Screen, TextField } from "../components"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../models"
+import { useNavigation } from "@react-navigation/native"
+import { useStores } from "../models"
 
 // STOP! READ ME FIRST!
 // To fix the TS error below, you'll need to add the following things in your navigation config:
@@ -25,14 +25,31 @@ import { Button, Screen, TextField } from "../components"
 export const CreateChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "CreateChatRoom">> =
   observer(function CreateChatRoomScreen() {
     // Pull in one of our MST stores
-    // const { someStore, anotherStore } = useStores()
+    const { chatRoom } = useStores()
 
     // Pull in navigation via hook
-    // const navigation = useNavigation()
+    const navigation = useNavigation()
+    const handlechange = (text: string) => {
+      chatRoom.setChatRoom(text)
+    }
+
+    const handleSubmit = (name: string) => {
+      chatRoom.createChatRoom(name)
+    }
     return (
       <Screen style={$root} preset="fixed">
-        <TextField containerStyle={$field} label="group name" placeholder="Type Here..." />
-        <Button onPress={() => console.log("klicked")}>create group</Button>
+        <TextField
+          containerStyle={$field}
+          label="group name"
+          placeholder="Type Here..."
+          onChangeText={(text) => handlechange(text)}
+        />
+        <Button
+          onTouchEnd={() => navigation.navigate("Home" as never)}
+          onPress={() => handleSubmit(chatRoom.getChatRoom())}
+        >
+          create group
+        </Button>
       </Screen>
     )
   })
