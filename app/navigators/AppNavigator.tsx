@@ -11,7 +11,7 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
-import { ChatRoomScreen, HomeScreen } from "../screens"
+import { ChatRoomScreen, HomeScreen, CreateChatRoomScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -31,6 +31,7 @@ export type AppStackParamList = {
   // 🔥 Your screens go here
   Home: undefined
   ChatRoom: undefined
+  CreateChatRoom: undefined
 }
 
 /**
@@ -57,6 +58,7 @@ const AppStack = observer(function AppStack() {
         component={ChatRoomScreen}
         options={({ route }: any) => ({ title: route.params.data.name })}
       />
+      <Stack.Screen name="CreateChatRoom" component={CreateChatRoomScreen} options={{ title: "Create Room" }} />
     </Stack.Navigator>
   )
 })
