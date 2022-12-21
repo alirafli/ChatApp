@@ -6,7 +6,7 @@
 // ---
 import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle, ScrollView, TouchableOpacity } from "react-native"
+import { ViewStyle, ScrollView, TouchableOpacity, Image, ImageStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { AppStackScreenProps } from "../navigators"
 import { Screen, Text } from "../components"
@@ -33,6 +33,8 @@ export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = obs
     const [isLoading, setIsLoading] = React.useState(false)
     const navigation = useNavigation()
 
+    const plusIcon = require("../../assets/icons/plus.png")
+
     React.useEffect(() => {
       ;(async function load() {
         setIsLoading(true)
@@ -50,7 +52,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackScreenProps, "Home">> = obs
           style={$createButton}
           onPress={() => navigation.navigate("CreateChatRoom" as never)}
         >
-          <Text text="Create Room" />
+          <Image style={$image} source={plusIcon} />
         </TouchableOpacity>
       </Screen>
     )
@@ -86,4 +88,11 @@ const $createButton: ViewStyle = {
   backgroundColor: colors.palette.primary200,
   padding: 10,
   borderRadius: 100,
+}
+
+const $image: ImageStyle = {
+  borderRadius: 50,
+  width: 35,
+  height: 35,
+  opacity: 0.7,
 }
