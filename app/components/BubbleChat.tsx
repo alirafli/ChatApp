@@ -7,14 +7,16 @@
 import * as React from "react"
 import { StyleProp, TextStyle, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { colors, typography } from "../theme"
+import { colors } from "../theme"
 import { Text } from "./Text"
+import { formatDate } from "../utils/formatDate"
 
 export interface BubbleChatProps {
   /**
    * An optional style override useful for padding & margin.
    */
   name: string
+  time: string
   message: string
   username: string
   style?: StyleProp<ViewStyle>
@@ -27,19 +29,22 @@ export const BubbleChat = observer(function BubbleChat({
   name,
   message,
   username,
+  time,
 }: BubbleChatProps) {
+  const chatTime = formatDate(time,  "HH:mm")
   return (
     <View style={[$container, username === name && $isMe]}>
-      {username !== name && <Text style={$name}>{name}</Text>}
-      <Text style={$message}>{message}</Text>
+      <View style={$wrapper}>
+        {username !== name && <Text style={$name}>{name}</Text>}
+        <Text style={$message}>{message}</Text>
+      </View>
+      <Text style={$date}>{chatTime}</Text>
     </View>
   )
 })
 
-const $container: ViewStyle = {
+const $wrapper: ViewStyle = {
   backgroundColor: colors.palette.neutral100,
-  display: "flex",
-  alignSelf: "flex-start",
   maxWidth: "80%",
   paddingHorizontal: 20,
   paddingVertical: 6,
@@ -48,24 +53,33 @@ const $container: ViewStyle = {
   borderRadius: 15,
 }
 
-const $isMe: ViewStyle = {
+const $container: ViewStyle = {
+  display: "flex",
+  flexDirection: "row",
   alignItems: "flex-end",
-  alignSelf: "flex-end",
+}
+
+const $isMe: ViewStyle = {
+  justifyContent: "flex-start",
+  flexDirection: "row-reverse",
 }
 
 const $name: TextStyle = {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  fontFamily: typography.primary.normal,
   fontSize: 12,
   fontWeight: "bold",
   color: colors.palette.primary400,
 }
 
 const $message: TextStyle = {
-  fontFamily: typography.primary.normal,
   fontSize: 15,
+}
+
+const $date: TextStyle = {
+  fontSize: 10,
+  marginBottom: 8,
 }
 
 // const $image: ImageStyle = {

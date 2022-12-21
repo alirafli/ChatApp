@@ -17,6 +17,7 @@ import {
 import { observer } from "mobx-react-lite"
 import { colors, spacing, typography } from "../theme"
 import { Text } from "./Text"
+import { formatDate } from "../utils/formatDate"
 
 const defaultImage = require("../../assets/images/rnr-image-1.png")
 
@@ -38,17 +39,17 @@ export const ChatCard = observer(function ChatCard({
   name = "your title",
   image,
   onPress,
-  createdAt
+  createdAt,
 }: ChatCardProps) {
   const profilePicture = image ?? defaultImage
-
+const dateToTime = formatDate(createdAt)
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={$container}>
         <Image style={$image} source={image ? { uri: profilePicture } : profilePicture} />
         <View style={$textWrapper}>
           <Text style={$title}>{name}</Text>
-          <Text style={$date}>{createdAt}</Text>
+          <Text style={$date}>{dateToTime}</Text>
         </View>
       </View>
     </TouchableOpacity>

@@ -59,7 +59,7 @@ export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom"
         ) : (
           <ScrollView style={$content}>
             {chatStore.chats.map((data, key) => (
-              <BubbleChat key={key} name={data.name} message={data.message} username={username} />
+              <BubbleChat key={key} name={data.name} message={data.message} username={username} time={data.createdAt}/>
             ))}
           </ScrollView>
         )}
