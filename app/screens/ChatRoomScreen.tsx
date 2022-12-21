@@ -29,13 +29,14 @@ export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom"
     const data = route.params.data
     const sendIcon = require("../../assets/icons/caretRight.png")
     const [isLoading, setIsLoading] = React.useState(false)
+    const username = "ali rafli"
 
     // Pull in navigation via hook
     // const navigation = useNavigation()
 
     const handleChat = (text) => {
       chat.setChat(text)
-      chat.setName("ali rafli")
+      chat.setName(username)
     }
 
     const handleSendChat = (id) => {
@@ -49,7 +50,7 @@ export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom"
         setIsLoading(false)
       })()
     }, [chatStore])
-    
+
     if (isLoading) return <Text style={$root} text="Loading..." />
     return (
       <Screen style={$root} preset="fixed">
@@ -58,7 +59,7 @@ export const ChatRoomScreen: FC<StackScreenProps<AppStackScreenProps, "ChatRoom"
         ) : (
           <ScrollView style={$content}>
             {chatStore.chats.map((data, key) => (
-              <BubbleChat key={key} name={data.name} message={data.message} />
+              <BubbleChat key={key} name={data.name} message={data.message} username={username} />
             ))}
           </ScrollView>
         )}
@@ -102,5 +103,4 @@ const $fieldChat: ViewStyle = {
   height: "10%",
   flexDirection: "row",
   alignItems: "center",
-  // paddingTop: 15
 }

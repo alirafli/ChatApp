@@ -16,16 +16,21 @@ export interface BubbleChatProps {
    */
   name: string
   message: string
+  username: string
   style?: StyleProp<ViewStyle>
 }
 
 /**
  * Describe your component here
  */
-export const BubbleChat = observer(function BubbleChat({ name, message }: BubbleChatProps) {
+export const BubbleChat = observer(function BubbleChat({
+  name,
+  message,
+  username,
+}: BubbleChatProps) {
   return (
-    <View style={$container}>
-      <Text style={$name}>{name}</Text>
+    <View style={[$container, username === name && $isMe]}>
+      {username !== name && <Text style={$name}>{name}</Text>}
       <Text style={$message}>{message}</Text>
     </View>
   )
@@ -36,12 +41,16 @@ const $container: ViewStyle = {
   display: "flex",
   alignSelf: "flex-start",
   maxWidth: "80%",
-  paddingLeft: 20,
-  paddingRight: 35,
+  paddingHorizontal: 20,
   paddingVertical: 6,
   marginVertical: 12,
   marginHorizontal: 8,
   borderRadius: 15,
+}
+
+const $isMe: ViewStyle = {
+  alignItems: "flex-end",
+  alignSelf: "flex-end",
 }
 
 const $name: TextStyle = {
